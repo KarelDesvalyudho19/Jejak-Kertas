@@ -2,7 +2,7 @@
 
 Aplikasi untuk mahasiswa di sekitar Universitas Bengkulu (Kandang Limun, Jl. W.R. Supratman, Bumi Ayu). Tujuannya sederhana: kertas yang masih punya sisi kosong dipakai lagi, dan kertas yang sudah tidak bisa dipakai didaur ulang.
 
-Dibuat sebagai Tugas Besar mata kuliah Rekayasa Perangkat Lunak.
+Dibuat sebagai Tugas Besar mata kuliah Proyek Rekayasa Perangkat Lunak.
 
 ## Apa yang bisa dilakukan
 
