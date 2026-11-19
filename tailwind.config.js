@@ -11,11 +11,11 @@ export default {
         sukses: { DEFAULT: '#2F5D50', muda: '#D7E3DE' },
       },
       fontFamily: {
-        serif: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+        serif: ['Newsreader', 'Georgia', 'serif'],
+        sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
       },
-      letterSpacing: { rapat: '-0.035em' },
+      letterSpacing: { rapat: '-0.025em' },
       boxShadow: {
         kertas: '0 1px 0 rgba(22,21,19,0.06), 0 8px 24px -12px rgba(22,21,19,0.18)',
         tumpuk: '3px 3px 0 #E9E4D8, 6px 6px 0 rgba(22,21,19,0.08)',

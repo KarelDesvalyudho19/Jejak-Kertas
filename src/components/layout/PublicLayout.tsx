@@ -19,11 +19,11 @@ export function PublicLayout() {
           </nav>
           <div className="flex items-center gap-2">
             {user ? (
-              <TombolTautan to={berandaPeran(user.role)} ukuran="sm" varian="tinta">Buka panel</TombolTautan>
+              <TombolTautan to={berandaPeran(user.role)} ukuran="sm" varian="lipat">Buka panel</TombolTautan>
             ) : (
               <>
                 <NavLink to="/masuk" className="hidden px-3 text-sm sm:inline-block tautan no-underline">Masuk</NavLink>
-                <TombolTautan to="/daftar" ukuran="sm" varian="revisi">Daftar gratis</TombolTautan>
+                <TombolTautan to="/daftar" ukuran="sm" varian="lipat">Daftar gratis</TombolTautan>
               </>
             )}
           </div>

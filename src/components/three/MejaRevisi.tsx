@@ -64,7 +64,7 @@ function gambarDepan(ctx: CanvasRenderingContext2D, seed: number, coretan: boole
   ctx.beginPath();
   ctx.ellipse(150, baris[4] + 3, 110, 16, -0.04, 0, Math.PI * 2);
   ctx.stroke();
-  ctx.font = 'italic 600 30px Fraunces, Georgia, serif';
+  ctx.font = 'italic 600 30px Newsreader, Georgia, serif';
   ctx.fillStyle = '#D33A2C';
   ctx.save();
   ctx.translate(250, 108);
@@ -75,7 +75,7 @@ function gambarDepan(ctx: CanvasRenderingContext2D, seed: number, coretan: boole
   ctx.moveTo(368, 150);
   ctx.lineTo(368, 300);
   ctx.stroke();
-  ctx.font = 'italic 22px Fraunces, Georgia, serif';
+  ctx.font = 'italic 22px Newsreader, Georgia, serif';
   ctx.save();
   ctx.translate(380, 290);
   ctx.rotate(-Math.PI / 2);

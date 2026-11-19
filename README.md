@@ -1,6 +1,6 @@
 # JejakKertas-Zero
 
-Aplikasi untuk mahasiswa di sekitar Universitas Bengkulu (Kandang Limun, Jl. W.R. Supratman, Bumi Ayu). Tujuannya sederhana: kertas yang masih punya sisi kosong dipakai lagi, dan kertas yang sudah tidak bisa dipakai didaur ulang.
+Aplikasi untuk mahasiswa di sekitar Universitas Bengkulu (Kandang Limun, Jl. W.R. Supratman). Tujuannya sederhana: kertas yang masih punya sisi kosong dipakai lagi, dan kertas yang sudah tidak bisa dipakai didaur ulang.
 
 Dibuat sebagai Tugas Besar mata kuliah Proyek Rekayasa Perangkat Lunak.
 

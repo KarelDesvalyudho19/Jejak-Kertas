@@ -76,7 +76,7 @@ export function Lingkari({ children, className, tunda = 0.2 }: { children: React
 /** Catatan tangan merah di pinggir, miring sedikit. */
 export function CatatanDosen({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <span className={cn('inline-block -rotate-2 font-serif italic text-revisi', className)} style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>
+    <span className={cn('inline-block -rotate-2 font-serif italic text-revisi', className)}>
       {children}
     </span>
   );

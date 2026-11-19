@@ -47,7 +47,7 @@ export function Stempel({
             </textPath>
           </text>
         )}
-        <text x="60" y="64.5" textAnchor="middle" fill="currentColor" fontFamily="Fraunces, serif" fontSize="15" fontWeight="700" letterSpacing="-0.4">
+        <text x="60" y="64.5" textAnchor="middle" fill="currentColor" fontFamily="Newsreader, serif" fontSize="15" fontWeight="700" letterSpacing="-0.4">
           {tengah}
         </text>
       </g>

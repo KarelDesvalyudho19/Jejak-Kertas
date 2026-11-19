@@ -50,7 +50,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     repo.ringkasanPublik().then(setRingkas).catch(() => setRingkas(null));
-    // tunggu font termuat agar teks di tekstur kanvas 3D memakai Fraunces
+    // tunggu font termuat agar teks di tekstur kanvas 3D memakai Newsreader
     const ok = webglTersedia();
     if (!ok) return;
     (document.fonts?.ready ?? Promise.resolve()).then(() => setSiap3D(true));
@@ -71,11 +71,10 @@ export default function LandingPage() {
         <div className="grid-milimeter pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-6 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-[1.08fr_1fr] lg:pb-24 lg:pt-16">
           <motion.div initial="hidden" animate="show">
-            <motion.div variants={muncul} custom={0} className="label-mono mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="inline-block h-2 w-2 bg-revisi" />
-              Kandang Limun · Jl. W.R. Supratman · Bumi Ayu — sekitar UNIB
-            </motion.div>
-            <motion.h1 variants={muncul} custom={1} className="text-[46px] font-semibold leading-[0.98] sm:text-[64px] lg:text-[78px]">
+            <motion.p variants={muncul} custom={0} className="selotip mb-7 inline-block -rotate-2 px-4 py-1.5 text-[14px] text-tinta">
+              Untuk mahasiswa sekitar Universitas Bengkulu
+            </motion.p>
+            <motion.h1 variants={muncul} custom={1} className="text-[46px] font-medium leading-[0.98] sm:text-[64px] lg:text-[78px]">
               Revisi boleh berkali-kali.
               <br />
               Kertasnya jangan <Coret tunda={0.9}>dibuang</Coret>
@@ -87,27 +86,28 @@ export default function LandingPage() {
             <motion.p variants={muncul} custom={3} className="mt-7 max-w-xl text-[17px] leading-relaxed text-tinta-abu">
               JejakKertas-Zero mencetak draf laporan praktikum dan skripsimu di sisi kosong kertas bekas, menjemput tumpukan lembar revisi langsung dari kos, lalu mengubah setiap setoran jadi potongan biaya cetak berikutnya.
             </motion.p>
-            <motion.div variants={muncul} custom={4} className="mt-9 flex flex-wrap gap-4">
-              <TombolTautan to={keCetak} varian="revisi" ukuran="lg">
+            <motion.div variants={muncul} custom={4} className="mt-9 flex flex-wrap items-center gap-5">
+              <TombolTautan to={keCetak} varian="lipat" ukuran="lg">
                 Pesan cetak draf
               </TombolTautan>
-              <TombolTautan to={keJemput} varian="garis" ukuran="lg">
+              <TombolTautan to={keJemput} varian="tumpuk" ukuran="lg">
                 Jadwalkan jemput kertas
               </TombolTautan>
             </motion.div>
-            <motion.dl variants={muncul} custom={5} className="mt-12 grid max-w-xl grid-cols-3 border-y border-tinta/15 font-mono text-[12px]">
-              <div className="border-r border-tinta/15 py-3 pr-3">
-                <dt className="text-tinta-abu">Eco-Paper</dt>
-                <dd className="mt-1 text-[15px] font-semibold text-tinta">{rupiah(hargaEco)}<span className="font-normal text-tinta-abu">/lbr</span></dd>
-              </div>
-              <div className="border-r border-tinta/15 px-3 py-3">
-                <dt className="text-tinta-abu">Setor 1 lembar</dt>
-                <dd className="mt-1 text-[15px] font-semibold text-tinta">+{ringkas?.poinPerLembar ?? 1} poin</dd>
-              </div>
-              <div className="py-3 pl-3">
-                <dt className="text-tinta-abu">Data pribadi</dt>
-                <dd className="mt-1 text-[15px] font-semibold text-revisi">dicacah</dd>
-              </div>
+            <motion.dl variants={muncul} custom={5} className="mt-12 flex flex-wrap gap-4">
+              {[
+                { nilai: rupiah(hargaEco), satuan: '/lembar', ket: 'Cetak di Eco-Paper', miring: -2 },
+                { nilai: `+${ringkas?.poinPerLembar ?? 1}`, satuan: 'poin', ket: 'Tiap lembar disetor', miring: 1.5 },
+                { nilai: 'Dicacah', satuan: '', ket: 'Lembar berisi data pribadi', miring: -1, merah: true },
+              ].map((d) => (
+                <div key={d.ket} className="label-harga kartu flex flex-col-reverse py-3.5 pl-11 pr-5" style={{ rotate: `${d.miring}deg` }}>
+                  <dt className="mt-1 text-[13px] text-tinta">{d.ket}</dt>
+                  <dd className={`font-serif text-[26px] font-medium leading-none tabular-nums ${d.merah ? 'italic text-revisi' : ''}`}>
+                    {d.nilai}
+                    {d.satuan && <span className="ml-1 font-sans text-[13px] font-normal text-tinta-abu">{d.satuan}</span>}
+                  </dd>
+                </div>
+              ))}
             </motion.dl>
           </motion.div>
 
@@ -132,14 +132,14 @@ export default function LandingPage() {
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
             <div>
               <div className="label-mono mb-3">§ 01 — Latar belakang</div>
-              <h2 className="text-[38px] font-semibold leading-[1.02] sm:text-[48px]">
-                Satu laporan, <Lingkari>lima kali cetak</Lingkari>.
+              <h2 className="text-[38px] font-semibold leading-[1.1] sm:text-[48px]">
+                Draf dicetak berkali-kali, sisi belakangnya <Lingkari className="px-2">terbuang</Lingkari>.
               </h2>
-              <p className="mt-5 max-w-md text-tinta-abu">
-                Dosen pembimbing mencoret, mahasiswa mencetak ulang. Polanya sama di setiap kos sekitar kampus — dan ujungnya selalu di tong sampah.
+              <p className="mt-8 max-w-md leading-relaxed text-tinta-abu">
+                Laporan praktikum dan skripsi dicetak ulang setiap kali direvisi, biasanya hanya satu sisi. Lembar lama dibuang padahal sisi sebaliknya masih kosong. JejakKertas-Zero menjemput lembar itu dari kos, menyortirnya, lalu memakainya lagi untuk cetak draf berikutnya.
               </p>
             </div>
-            <ol className="bergaris relative border-l border-revisi/50 pl-6 sm:pl-10">
+            <ol className="relative divide-y divide-tinta/10 border-l border-revisi/50">
               {[
                 ['Revisi ketiga, keempat, kelima.', 'Laporan praktikum dan draf skripsi dicetak ulang setiap kali bimbingan. Lembar versi lama langsung dianggap sampah.'],
                 ['Sisi belakangnya masih putih.', 'Hampir semua draf dicetak satu sisi. Artinya separuh dari kertas yang dibuang itu belum pernah dipakai sama sekali.'],
@@ -147,15 +147,17 @@ export default function LandingPage() {
               ].map(([j, isi], i) => (
                 <motion.li
                   key={j}
-                  className="relative pb-8 last:pb-0"
+                  className="grid grid-cols-[2.5rem_1fr] gap-x-2 py-6 pl-4 first:pt-0 last:pb-0 sm:grid-cols-[3rem_1fr] sm:pl-6"
                   initial={{ opacity: 0, x: 16 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: '-60px' }}
                   transition={{ delay: i * 0.12, duration: 0.5 }}
                 >
-                  <span className="absolute -left-[42px] top-1 hidden font-mono text-xs text-revisi sm:block">0{i + 1}</span>
-                  <h3 className="font-serif text-[24px] font-semibold leading-8">{j}</h3>
-                  <p className="mt-1 max-w-xl leading-8 text-tinta-abu">{isi}</p>
+                  <span className="pt-1.5 font-mono text-xs text-revisi">0{i + 1}</span>
+                  <div>
+                    <h3 className="font-serif text-[24px] font-semibold leading-snug">{j}</h3>
+                    <p className="mt-2 max-w-xl leading-relaxed text-tinta-abu">{isi}</p>
+                  </div>
                 </motion.li>
               ))}
             </ol>
@@ -311,10 +313,10 @@ export default function LandingPage() {
             Ada tumpukan draf di kolong kasur kos? <span className="text-revisi">Setor sekarang.</span>
           </h2>
           <div className="flex flex-wrap gap-4">
-            <TombolTautan to={user ? keJemput : '/daftar'} varian="revisi" ukuran="lg">
+            <TombolTautan to={user ? keJemput : '/daftar'} varian="lipat" ukuran="lg">
               {user ? 'Ajukan jemput' : 'Buat akun mahasiswa'}
             </TombolTautan>
-            <TombolTautan to="/masuk" varian="garis" ukuran="lg">
+            <TombolTautan to="/masuk" varian="tumpuk" ukuran="lg">
               Coba akun demo
             </TombolTautan>
           </div>
