@@ -14,7 +14,7 @@ const W_CACAH = '#4F6274';
 const W_ECO = '#161513';
 
 export default function LaporanDampak() {
-  const { data } = useData();
+  const { data, user } = useData();
   const { aksi } = useApp();
   const [bulan, setBulan] = useState(6);
   const [tabel, setTabel] = useState(false);
@@ -42,23 +42,20 @@ export default function LaporanDampak() {
   return (
     <>
       <JudulHalaman
-        nomor="A1 — Laporan dampak"
-        judul="Yang tidak sampai ke TPA."
-        deskripsi="Dihitung dari hasil sortir mitra dan pesanan Eco-Paper. Faktor konversi bisa diatur di bawah."
+        nomor="00 — Meja kerja"
+        judul={<>Halo, {user.nama.split(' ')[0]}.</>}
+        deskripsi={`${angka(total.lembarDiselamatkan)} lembar tidak sampai ke TPA, dari ${angka(mhsAktif)} mahasiswa penyetor. ${angka(rahasia)} bundel berisi data pribadi sudah dicacah.`}
         aksi={<Button varian="garis" onClick={ekspor}>Ekspor CSV</Button>}
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Angka label="Lembar diselamatkan" nilai={angka(total.lembarDiselamatkan)} catatan={`${angka(total.lembarLayak)} layak · ${angka(total.lembarDicacah)} dicacah`} />
+      <div className="mb-5 grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <Angka label="Lembar diselamatkan" nilai={angka(total.lembarDiselamatkan)} satuan="lbr" aksen catatan={`${angka(total.lembarLayak)} layak · ${angka(total.lembarDicacah)} dicacah`} />
         <Angka label="Kertas tidak ke TPA" nilai={angka1(total.kg)} satuan="kg" catatan={`@ ${p.gramPerLembar} g/lembar`} />
-        <Angka label="Lembar Eco dicetak" nilai={angka(total.lembarEcoDicetak)} catatan="kertas baru yang tidak perlu dibeli" />
-        <Angka label="Estimasi pohon" nilai={angka1(total.pohon)} satuan="pohon" aksen catatan={`@ ${angka(p.lembarPerPohon)} lembar/pohon`} />
-      </div>
-      <div className="mt-3 font-mono text-[12px] text-tinta-abu">
-        {mhsAktif} mahasiswa pernah menyetor · {rahasia} bundel berisi data pribadi sudah dicacah
+        <Angka label="Lembar Eco dicetak" nilai={angka(total.lembarEcoDicetak)} satuan="lbr" catatan="kertas baru tak perlu dibeli" />
+        <Angka label="Estimasi pohon" nilai={angka1(total.pohon)} satuan="pohon" catatan={`@ ${angka(p.lembarPerPohon)} lembar/pohon`} />
       </div>
 
-      <section className="mt-10">
+      <section className="mt-8">
         <SubJudul
           kanan={
             <div className="flex gap-2">
@@ -74,7 +71,7 @@ export default function LaporanDampak() {
           Lembar terkumpul per bulan
         </SubJudul>
         <Kertas className="p-5">
-          <div className="mb-3 flex flex-wrap gap-5 text-[13px]">
+          <div className="mb-3 flex flex-wrap gap-5 text-[13px] text-tinta-abu">
             <Legenda warna={W_LAYAK} label="Layak pakai → Eco-Paper" />
             <Legenda warna={W_CACAH} label="Dicacah → daur ulang" />
           </div>
@@ -97,7 +94,7 @@ export default function LaporanDampak() {
         </Kertas>
       </section>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1.3fr_1fr]">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[1.3fr_1fr]">
         <section>
           <SubJudul>Lembar Eco-Paper dicetak</SubJudul>
           <Kertas className="p-5">
@@ -183,12 +180,12 @@ function TabelBulan({ baris }: { baris: ReturnType<typeof dampakPerBulan> }) {
     <div className="overflow-x-auto">
       <table className="w-full min-w-[520px] font-mono text-[12.5px]">
         <thead>
-          <tr className="border-b border-tinta/25 text-left text-[10.5px] uppercase tracking-[0.12em] text-tinta-abu">
-            <th className="py-2 pr-3 font-medium">Bulan</th>
-            <th className="py-2 pr-3 text-right font-medium">Layak</th>
-            <th className="py-2 pr-3 text-right font-medium">Dicacah</th>
-            <th className="py-2 pr-3 text-right font-medium">Kg</th>
-            <th className="py-2 text-right font-medium">Eco dicetak</th>
+          <tr className="border-b border-tinta/20 text-left">
+            <th className="label-mono py-2 pr-3 font-normal">Bulan</th>
+            <th className="label-mono py-2 pr-3 text-right font-normal">Layak</th>
+            <th className="label-mono py-2 pr-3 text-right font-normal">Dicacah</th>
+            <th className="label-mono py-2 pr-3 text-right font-normal">Kg</th>
+            <th className="label-mono py-2 text-right font-normal">Eco dicetak</th>
           </tr>
         </thead>
         <tbody>

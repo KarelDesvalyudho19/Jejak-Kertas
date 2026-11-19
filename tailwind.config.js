@@ -11,9 +11,10 @@ export default {
         sukses: { DEFAULT: '#2F5D50', muda: '#D7E3DE' },
       },
       fontFamily: {
-        serif: ['Newsreader', 'Georgia', 'serif'],
-        sans: ['"Hanken Grotesk"', 'system-ui', 'sans-serif'],
+        serif: ['Spectral', 'Georgia', 'serif'],
+        sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        struk: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       letterSpacing: { rapat: '-0.025em' },
       boxShadow: {

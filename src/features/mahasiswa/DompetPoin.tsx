@@ -26,7 +26,7 @@ export default function DompetPoin() {
     <>
       <JudulHalaman nomor="04 — Dompet poin" judul="Buku poin." deskripsi="Setiap lembar yang tersortir menambah saldo; setiap potongan cetak mengurangi. Semua tercatat seperti buku tabungan." />
 
-      <div className="mb-8 grid gap-px border border-tinta/15 bg-tinta/15 sm:grid-cols-3">
+      <div className="kartu mb-6 grid gap-px bg-tinta/15 sm:grid-cols-3">
         <div className="bg-kertas-terang p-5">
           <div className="label-mono">Saldo sekarang</div>
           <div className="mt-2 font-serif text-[48px] font-semibold leading-none tracking-rapat tabular-nums">{angka(me.saldoPoin)}</div>

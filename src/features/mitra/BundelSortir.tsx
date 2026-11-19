@@ -41,9 +41,9 @@ export default function BundelSortir() {
 
   return (
     <>
-      <JudulHalaman nomor="M2 — Bundel & sortir" judul="Kertas bekas yang datang." deskripsi="Pindai label QR saat kurir menyerahkan bundel, pilah isinya, lalu salurkan: sisi kosong jadi Eco-Paper, sisanya dicacah." />
+      <JudulHalaman nomor="02 — Bundel & sortir" judul="Kertas bekas yang datang." deskripsi="Pindai label QR saat kurir menyerahkan bundel, pilah isinya, lalu salurkan: sisi kosong jadi Eco-Paper, sisanya dicacah." />
 
-      <Kertas bergaris className="mb-10 p-6">
+      <Kertas bergaris className="mb-5 p-5">
         <div className="grid gap-6 md:grid-cols-[1fr_1fr] md:items-center">
           <div>
             <div className="label-mono mb-1">Konfirmasi penerimaan</div>
@@ -64,7 +64,7 @@ export default function BundelSortir() {
         )}
       </Kertas>
 
-      <div className="grid gap-10 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section>
           <SubJudul>Perlu disortir</SubJudul>
           {belumSortir.length === 0 ? (
@@ -99,7 +99,7 @@ export default function BundelSortir() {
                   <div className="min-w-0">
                     <div className="font-mono text-[13px]">{j.kodeQR}</div>
                     <div className="text-[13px] text-tinta-abu">
-                      <span className="text-sukses">{angka(b.lembarLayak)} layak</span> · {angka(b.lembarDicacah)} dicacah
+                      {angka(b.lembarLayak)} layak ·{angka(b.lembarDicacah)} dicacah
                     </div>
                   </div>
                   <Button
@@ -116,12 +116,12 @@ export default function BundelSortir() {
         </section>
       </div>
 
-      <section className="mt-12">
+      <section className="mt-8">
         <SubJudul>Riwayat sortir</SubJudul>
         {riwayat.length === 0 ? (
           <Kosong judul="Belum ada riwayat" />
         ) : (
-          <div className="kartu overflow-x-auto">
+          <Kertas className="overflow-x-auto">
             <table className="w-full min-w-[620px] text-[13.5px]">
               <thead>
                 <tr className="border-b border-tinta/20 text-left">
@@ -134,16 +134,16 @@ export default function BundelSortir() {
                 {riwayat.slice(0, 30).map(({ b, j }) => (
                   <tr key={b.id} className="border-b border-tinta/[0.07]">
                     <td className="px-4 py-2 font-mono text-[12px] text-tinta-abu">{b.tanggalSortir && tanggal(b.tanggalSortir)}</td>
-                    <td className="px-4 py-2 font-mono text-[12px]">{j.kodeQR}</td>
+                    <td className="px-4 py-2 font-mono text-[12px] text-tinta-abu">{j.kodeQR}</td>
                     <td className="px-4 py-2">{nama(j.mahasiswaId)}</td>
-                    <td className="px-4 py-2 font-mono text-sukses">{angka(b.lembarLayak)}</td>
-                    <td className="px-4 py-2 font-mono">{angka(b.lembarDicacah)}</td>
+                    <td className="px-4 py-2 font-mono text-tinta-abu">{angka(b.lembarLayak)}</td>
+                    <td className="px-4 py-2 font-mono text-tinta-abu">{angka(b.lembarDicacah)}</td>
                     <td className="px-4 py-2"><BadgeJemput status={j.status} /></td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          </div>
+          </Kertas>
         )}
       </section>
 

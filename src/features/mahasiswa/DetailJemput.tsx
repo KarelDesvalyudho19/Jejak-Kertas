@@ -47,13 +47,13 @@ export default function DetailJemput() {
         aksi={<BadgeJemput status={j.status} className="text-[12px]" />}
       />
 
-      <Kertas className="mb-8 p-6">
+      <Kertas className="mb-6 p-5">
         <Timeline langkah={alur.map((s) => ({ kunci: s, label: STATUS_JEMPUT[s].label, ket: KET[s] }))} aktif={idx} batal={batal} />
       </Kertas>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
-        <div className="space-y-6">
-          <Kertas bergaris className="p-6">
+      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+        <div className="space-y-5">
+          <Kertas className="p-5">
             <div className="label-mono mb-3">Detail</div>
             <dl className="grid grid-cols-[auto_1fr] gap-x-6 leading-8">
               <dt className="text-tinta-abu">Kategori</dt>
@@ -73,7 +73,7 @@ export default function DetailJemput() {
           </Kertas>
 
           {b && (
-            <Kertas className="relative overflow-hidden p-6">
+            <Kertas className="relative p-5 sm:pr-36">
               <div className="label-mono mb-3">Hasil sortir {mitra ? `· ${mitra.namaUsaha}` : ''}</div>
               {b.tanggalSortir ? (
                 <>
@@ -95,7 +95,7 @@ export default function DetailJemput() {
                     Disortir {tanggal(b.tanggalSortir)} · {angka1((total * data.pengaturan.gramPerLembar) / 1000)} kg kertas tidak berakhir di TPA.
                   </p>
                   {j.status === 'DICACAH' && (
-                    <div className="pointer-events-none absolute -right-2 -top-2">
+                    <div className="pointer-events-none absolute right-4 top-4 hidden sm:block">
                       <Stempel atas="data pribadi" tengah="DICACAH" bawah={tanggal(b.tanggalSortir)} ukuran={100} miring={-12} />
                     </div>
                   )}
@@ -107,7 +107,7 @@ export default function DetailJemput() {
           )}
         </div>
 
-        <Kertas className="h-fit p-6 text-center">
+        <Kertas className="h-fit p-5 text-center">
           <div className="label-mono mb-4">Label bundel</div>
           <div className="mx-auto w-fit border border-tinta bg-white p-3">
             <QRCodeSVG value={j.kodeQR} size={150} fgColor="#161513" level="M" />

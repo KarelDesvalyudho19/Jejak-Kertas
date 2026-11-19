@@ -49,9 +49,9 @@ export default function AjukanJemput() {
     <>
       <JudulHalaman nomor="02 — Ajukan jemput" judul="Setor tumpukan draf dari kos." deskripsi="Kurir datang di slot yang kamu pilih. Poin masuk setelah mitra selesai menyortir." />
 
-      <div className="grid gap-10 lg:grid-cols-[1fr_340px]">
-        <div className="space-y-10">
-          <section>
+      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+        <div className="space-y-5">
+          <section className="kartu p-5">
             <Label petunjuk="tumpukan setebal 1 cm ≈ 100 lembar">Estimasi jumlah lembar</Label>
             <div className="flex flex-wrap items-end gap-4">
               <Input type="number" min={10} max={5000} value={estimasi} onChange={(e) => setEstimasi(Number(e.target.value))} className="w-36 font-mono text-[28px]" aria-label="Estimasi lembar" />
@@ -66,7 +66,7 @@ export default function AjukanJemput() {
             {estimasi < 10 && <p className="mt-2 text-sm text-revisi">Minimal 10 lembar agar kurir berangkat.</p>}
           </section>
 
-          <section>
+          <section className="kartu p-5">
             <Label>Kategori kerahasiaan</Label>
             <PilihanKartu<KategoriKerahasiaan>
               nama="kategori"
@@ -84,7 +84,7 @@ export default function AjukanJemput() {
             {kategori === 'RAHASIA' && <p className="mt-3 text-[13px] text-tinta-abu">Tips: masukkan ke amplop atau kantong tertutup. Kurir hanya memindai label QR, tidak membuka isinya.</p>}
           </section>
 
-          <section>
+          <section className="kartu p-5">
             <Label petunjuk="Minggu libur">Pilih slot jadwal</Label>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {hari.map(({ tanggal, slot }) => (
@@ -115,7 +115,7 @@ export default function AjukanJemput() {
             </div>
           </section>
 
-          <section>
+          <section className="kartu p-5">
             <Label petunjuk="opsional · membantu kurir menyiapkan kantong">Foto tumpukan</Label>
             <label className="flex cursor-pointer items-center gap-4 border border-dashed border-tinta/25 p-3 hover:border-tinta/60">
               <input type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => setFoto(e.target.files?.[0] ?? null)} />
@@ -134,7 +134,7 @@ export default function AjukanJemput() {
           </section>
         </div>
 
-        <aside className="space-y-5 lg:sticky lg:top-8 lg:self-start">
+        <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
           <Kertas className="p-5">
             <div className="label-mono">Dijemput di</div>
             {lokasiOk ? (
@@ -149,9 +149,9 @@ export default function AjukanJemput() {
               </p>
             )}
           </Kertas>
-          <Kertas bergaris className="p-5">
+          <Kertas className="p-5">
             <div className="label-mono">Ringkasan</div>
-            <dl className="mt-3 space-y-1 text-sm leading-8">
+            <dl className="mt-3 space-y-1 text-sm leading-7">
               <div className="flex justify-between"><dt className="text-tinta-abu">Estimasi</dt><dd className="font-mono">{angka(estimasi)} lbr</dd></div>
               <div className="flex justify-between"><dt className="text-tinta-abu">Kategori</dt><dd className={cn(kategori === 'RAHASIA' && 'text-revisi')}>{kategori === 'AMAN' ? 'Aman' : 'Dicacah'}</dd></div>
               <div className="flex justify-between gap-4"><dt className="text-tinta-abu">Jadwal</dt><dd className="text-right">{jadwal ? labelSlot(jadwal) : '—'}</dd></div>

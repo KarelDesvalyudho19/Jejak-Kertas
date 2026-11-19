@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Ikon } from '@/components/layout/Ikon';
 import { TombolTautan } from '@/components/ui/Button';
-import { JudulHalaman, Kertas, Kosong, SubJudul } from '@/components/ui/Paper';
+import { Angka, JudulHalaman, Kertas, Kosong, SubJudul } from '@/components/ui/Paper';
 import { Stempel } from '@/components/ui/Stempel';
 import { useData, useLookup } from '@/context/AppContext';
 import { angka, angka1, rupiah } from '@/lib/format';
@@ -43,16 +43,24 @@ export default function BerandaMahasiswa() {
         }
       />
 
+      {/* Ringkasan */}
+      <div className="mb-5 grid grid-cols-2 gap-4 xl:grid-cols-4">
+        <Angka label="Saldo poin" nilai={angka(me.saldoPoin)} satuan="poin" aksen />
+        <Angka label="Pesanan berjalan" nilai={angka(pesananAktif.length)} catatan={siapAmbil ? `${siapAmbil} siap diambil` : 'cetak'} />
+        <Angka label="Jemput berjalan" nilai={angka(jemputAktif.length)} catatan="penjemputan" />
+        <Angka label="Lembar disetor" nilai={angka(d.lembarDiselamatkan)} satuan="lbr" catatan={`${angka1(d.kg)} kg tak ke TPA`} />
+      </div>
+
       <div className="grid gap-5 lg:grid-cols-[1fr_1.3fr]">
         {/* Dompet poin */}
         <Link to="/mhs/poin" className="group">
-          <Kertas className="h-full overflow-hidden p-6 transition-transform group-hover:-translate-y-0.5">
+          <Kertas className="h-full overflow-hidden p-5 transition-transform group-hover:-translate-y-0.5">
             <div className="flex items-start justify-between">
               <div className="label-mono">Dompet poin</div>
               <Ikon nama="panah" className="h-4 w-4 text-tinta-abu transition-transform group-hover:translate-x-1" />
             </div>
-            <div className="mt-6 flex items-baseline gap-2">
-              <span className="font-serif text-[64px] font-semibold leading-none tracking-rapat tabular-nums">{angka(me.saldoPoin)}</span>
+            <div className="mt-4 flex items-baseline gap-2">
+              <span className="font-serif text-[52px] font-semibold leading-none tracking-rapat tabular-nums">{angka(me.saldoPoin)}</span>
               <span className="font-mono text-sm text-tinta-abu">poin</span>
             </div>
             <div className="mt-2 text-sm text-tinta-abu">
@@ -64,7 +72,8 @@ export default function BerandaMahasiswa() {
         </Link>
 
         {/* Kartu dampak pribadi */}
-        <Kertas bergaris className="relative overflow-hidden p-6">
+        <Kertas className="relative p-5 pt-7 sm:pr-36">
+          <span className="selotip absolute -top-3 left-8 h-6 w-16 -rotate-2" aria-hidden />
           <div className="label-mono">Kartu dampak pribadi</div>
           <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
             <Mini label="Lembar disetor" nilai={angka(d.lembarDiselamatkan)} />
@@ -77,13 +86,13 @@ export default function BerandaMahasiswa() {
               ? `Kalau ditumpuk, kertas yang kamu setor setinggi kira-kira ${angka1(d.lembarDiselamatkan / 100)} cm.`
               : 'Setoran pertamamu akan tercatat di sini setelah mitra selesai menyortir.'}
           </p>
-          <div className="pointer-events-none absolute -bottom-3 right-3 hidden sm:block">
+          <div className="pointer-events-none absolute bottom-4 right-4 hidden sm:block">
             <Stempel atas="jejak kertas" tengah={angka(d.lembarDiselamatkan)} bawah="lembar selamat" ukuran={104} miring={-10} />
           </div>
         </Kertas>
       </div>
 
-      <div className="mt-10 grid gap-8 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section>
           <SubJudul kanan={<Link to="/mhs/lacak" className="tautan text-sm">Semua</Link>}>Pesanan cetak berjalan</SubJudul>
           {pesananAktif.length ? (

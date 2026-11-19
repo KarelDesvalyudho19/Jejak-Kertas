@@ -3,7 +3,7 @@ import { repo } from '@/data';
 import { Ikon } from '@/components/layout/Ikon';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Field';
-import { Angka, JudulHalaman, Kosong } from '@/components/ui/Paper';
+import { Angka, JudulHalaman, Kertas, Kosong } from '@/components/ui/Paper';
 import { BadgePesanan } from '@/components/ui/StatusBadge';
 import { useApp, useData, useLookup } from '@/context/AppContext';
 import { JENIS_KERTAS_LABEL, JILID_LABEL, STATUS_PESANAN, WARNA_LABEL } from '@/lib/constants';
@@ -52,9 +52,9 @@ export default function AntreanCetak() {
 
   return (
     <>
-      <JudulHalaman nomor="M1 — Antrean cetak" judul="Pesanan masuk." deskripsi="Urut dari yang paling lama menunggu. Unduh PDF, cetak, lalu geser statusnya." />
+      <JudulHalaman nomor="01 — Antrean cetak" judul="Pesanan masuk." deskripsi="Urut dari yang paling lama menunggu. Unduh PDF, cetak, lalu geser statusnya." />
 
-      <div className="mb-8 grid gap-4 sm:grid-cols-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 xl:grid-cols-4">
         <Angka label="Menunggu diterima" nilai={hitung('DIAJUKAN')} aksen={hitung('DIAJUKAN') > 0} />
         <Angka label="Sedang dicetak" nilai={hitung('DIPROSES')} />
         <Angka label="Siap diambil" nilai={hitung('SIAP_DIAMBIL')} />
@@ -73,13 +73,13 @@ export default function AntreanCetak() {
       {daftar.length === 0 ? (
         <Kosong judul="Antrean kosong" isi="Pesanan baru dari mahasiswa akan muncul di sini." />
       ) : (
-        <div className="space-y-3">
+        <Kertas>
           {daftar.map((p) => {
             const d = dok.get(p.dokumenId);
             const m = users.get(p.mahasiswaId) as Mahasiswa | undefined;
             const lanjut = LANJUT[p.status];
             return (
-              <article key={p.id} className={cn('kartu grid gap-4 p-4 md:grid-cols-[1fr_auto] md:items-center', p.status === 'DIAJUKAN' && 'border-l-4 border-l-revisi')}>
+              <article key={p.id} className={cn('grid gap-4 border-b border-tinta/10 px-4 py-3.5 last:border-0 md:grid-cols-[1fr_auto] md:items-center', p.status === 'DIAJUKAN' && 'bg-revisi-muda/30')}>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className="font-mono text-[11px] text-tinta-abu">#{idPendek(p.id.replace(/^pc-/, ''))}</span>
@@ -89,10 +89,10 @@ export default function AntreanCetak() {
                   <div className="mt-2 truncate font-serif text-[19px] font-semibold">{d?.namaFile}</div>
                   <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-tinta-abu">
                     <span>{m?.nama} · <span className="font-mono">{m?.npm}</span></span>
-                    <span className={cn(p.jenisKertas === 'ECO' && 'text-sukses')}>{JENIS_KERTAS_LABEL[p.jenisKertas]}</span>
+                    <span>{JENIS_KERTAS_LABEL[p.jenisKertas]}</span>
                     <span>{WARNA_LABEL[p.warna]}</span>
                     <span>{JILID_LABEL[p.jilid]}</span>
-                    <span className="font-mono text-tinta">{d?.jumlahHalaman} hlm × {p.salinan} = {angka((d?.jumlahHalaman ?? 0) * p.salinan)} lbr</span>
+                    <span className="font-mono">{d?.jumlahHalaman} hlm × {p.salinan} = {angka((d?.jumlahHalaman ?? 0) * p.salinan)} lbr</span>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 md:justify-end">
@@ -114,7 +114,7 @@ export default function AntreanCetak() {
               </article>
             );
           })}
-        </div>
+        </Kertas>
       )}
     </>
   );

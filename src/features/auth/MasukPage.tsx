@@ -9,7 +9,6 @@ import { Bidang, Input } from '@/components/ui/Field';
 import { useToast } from '@/components/ui/Toast';
 import { useApp } from '@/context/AppContext';
 import { ROLE_LABEL } from '@/lib/constants';
-import { cn } from '@/lib/format';
 import { berandaPeran } from '@/lib/navigasi';
 import type { Role } from '@/lib/types';
 
@@ -60,12 +59,19 @@ export default function MasukPage() {
   }
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-12 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-20">
+    // lg: tinggi = layar − header (h-16), jadi halaman tidak bisa di-scroll; di layar kecil tetap scroll agar isi tidak terpotong
+    <div className="relative flex min-h-[calc(100dvh-4rem)] items-center lg:h-[calc(100dvh-4rem)] lg:overflow-hidden">
+      <div className="grid-milimeter pointer-events-none absolute inset-0 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-0">
       <section>
-        <div className="label-mono mb-3">Masuk</div>
-        <h1 className="text-[44px] font-semibold leading-none">Selamat datang kembali.</h1>
-        <p className="mt-3 text-tinta-abu">Masuk dengan akun JejakKertas-Zero untuk memesan cetak, menjadwalkan jemput, atau mengelola antrean.</p>
-        <form onSubmit={kirim} className="mt-10 space-y-6">
+        <div className="mb-6 inline-block -rotate-1 drop-shadow-[0_2px_3px_rgba(22,21,19,0.18)]">
+          <p className="sudut-lipat bg-[#FEFEFC] py-1.5 pl-4 pr-8 text-[14px] text-tinta">Masuk ke JejakKertas-Zero</p>
+        </div>
+        <h1 className="text-[44px] font-medium leading-[0.98] sm:text-[56px]">
+          Selamat datang kembali<span className="text-revisi">.</span>
+        </h1>
+        <p className="mt-5 max-w-md text-[17px] leading-relaxed text-tinta-abu">Masuk untuk memesan cetak, menjadwalkan jemput, atau mengelola antrean.</p>
+        <form onSubmit={kirim} className="mt-8 space-y-6">
           <Bidang label="Email">
             <Input type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="nama@contoh.ac.id" />
           </Bidang>
@@ -73,7 +79,7 @@ export default function MasukPage() {
             <Input type="password" autoComplete="current-password" required value={pw} onChange={(e) => setPw(e.target.value)} placeholder="••••••••" />
           </Bidang>
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Button type="submit" varian="tinta" ukuran="lg" memuat={memuat}>
+            <Button type="submit" varian="lipat" ukuran="lg" memuat={memuat}>
               Masuk
             </Button>
             <span className="text-sm text-tinta-abu">
@@ -116,14 +122,15 @@ export default function MasukPage() {
               animate={{ opacity: 1, y: 0, rotate: [-1.4, 1, -0.6, 1.2][i] }}
               whileHover={{ y: -6, rotate: 0 }}
               transition={{ delay: 0.06 * i }}
-              className={cn('kartu group relative overflow-hidden pt-7 text-left disabled:opacity-60')}
+              className="group text-left drop-shadow-[0_6px_10px_rgba(22,21,19,0.14)] disabled:opacity-60"
             >
-              {/* lubang tali kartu */}
-              <span className="absolute left-1/2 top-2.5 h-2 w-10 -translate-x-1/2 rounded-full border border-tinta/25 bg-kertas" />
-              <span className="absolute inset-x-0 top-0 h-1" style={{ background: WARNA_TALI[r] }} />
-              <div className="px-5 pb-5">
+              <div className="kartu-potong py-5 pl-10 pr-7">
+                {/* lubang pons di sisi kiri */}
+                {['18%', '50%', '82%'].map((t) => (
+                  <span key={t} className="lubang-pons -translate-y-1/2" style={{ top: t }} />
+                ))}
                 <div className="flex items-start justify-between">
-                  <span className="label-mono" style={{ color: WARNA_TALI[r] }}>
+                  <span className="label-mono px-2 py-0.5 !text-white" style={{ background: WARNA_TALI[r] }}>
                     {ROLE_LABEL[r]}
                   </span>
                   {memuatDemo === r ? <Putar /> : <span className="font-mono text-[10px] text-tinta-pudar">ID-{String(i + 1).padStart(3, '0')}</span>}
@@ -152,6 +159,7 @@ export default function MasukPage() {
             : 'Terhubung ke Supabase. Kata sandi akun demo: demo12345.'}
         </p>
       </section>
+      </div>
     </div>
   );
 }

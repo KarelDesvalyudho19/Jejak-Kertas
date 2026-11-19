@@ -97,8 +97,8 @@ export default function PesanCetak() {
     <>
       <JudulHalaman nomor="01 — Pesan cetak" judul="Cetak draf berikutnya." deskripsi="Unggah PDF, pilih kertas dan mitra. Harga dihitung langsung di struk sebelah." />
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-10">
+      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+        <div className="space-y-5">
           {/* 1. Berkas */}
           <Langkah no="1" judul="Unggah dokumen">
             <div
@@ -117,7 +117,7 @@ export default function PesanCetak() {
               tabIndex={0}
               onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && inputRef.current?.click()}
               className={cn(
-                'bergaris flex cursor-pointer flex-col items-center justify-center border-2 border-dashed px-6 py-10 text-center transition-colors',
+                'flex cursor-pointer flex-col items-center justify-center border-2 border-dashed bg-kertas px-6 py-8 text-center transition-colors',
                 seret ? 'border-revisi bg-revisi-muda/30' : 'border-tinta/25 hover:border-tinta/60',
               )}
             >
@@ -284,7 +284,7 @@ export default function PesanCetak() {
         </div>
 
         {/* Struk */}
-        <aside className="lg:sticky lg:top-8 lg:self-start">
+        <aside className="lg:sticky lg:top-6 lg:self-start">
           <Struk judul="JejakKertas-Zero" sub={mitraTerpilih ? mitraTerpilih.m.namaUsaha : 'pilih mitra percetakan'}>
             <div className="mb-2 truncate text-[11px] text-tinta-abu">{file?.name ?? 'belum ada dokumen'}</div>
             <BarisStruk kiri={`${halaman} hlm × ${salinan}`} kanan={`${angka(lembar)} lbr`} />
@@ -358,12 +358,12 @@ export default function PesanCetak() {
 
 function Langkah({ no, judul, children }: { no: string; judul: string; children: React.ReactNode }) {
   return (
-    <section className="grid gap-4 sm:grid-cols-[44px_1fr]">
-      <div className="font-serif text-[34px] font-semibold italic leading-none text-revisi">{no}</div>
-      <div>
-        <h2 className="mb-4 text-[22px] font-semibold leading-tight">{judul}</h2>
-        {children}
+    <section className="kartu p-5">
+      <div className="mb-4 flex items-baseline gap-3 border-b border-dashed border-tinta/20 pb-3">
+        <span className="font-serif text-[28px] font-semibold italic leading-none text-revisi">{no}</span>
+        <h2 className="text-[19px] font-semibold leading-tight">{judul}</h2>
       </div>
+      {children}
     </section>
   );
 }

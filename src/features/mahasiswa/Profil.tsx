@@ -24,8 +24,8 @@ export default function Profil() {
   return (
     <>
       <JudulHalaman nomor="05 — Profil" judul="Data diri & alamat kos." deskripsi="Alamat dan titik peta dipakai kurir untuk menemukan kosmu." />
-      <form onSubmit={simpan} className="grid gap-10 lg:grid-cols-2">
-        <div className="space-y-6">
+      <form onSubmit={simpan} className="grid gap-6 lg:grid-cols-2">
+        <div className="kartu space-y-5 p-5">
           <Bidang label="Nama lengkap">
             <Input value={f.nama} onChange={(e) => setF({ ...f, nama: e.target.value })} required />
           </Bidang>
@@ -42,7 +42,7 @@ export default function Profil() {
             Simpan perubahan
           </Button>
         </div>
-        <Bidang label="Titik kos" petunjuk="klik atau geser pin">
+        <Bidang label="Titik kos" petunjuk="klik atau geser pin" className="kartu p-5">
           <PemilihLokasi lat={f.lat} lng={f.lng} onChange={(lat, lng) => setF((x) => ({ ...x, lat, lng }))} className="mt-2 h-[380px]" />
         </Bidang>
       </form>

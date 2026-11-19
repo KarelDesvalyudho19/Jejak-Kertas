@@ -18,6 +18,7 @@ const DetailJemput = lazy(() => import('@/features/mahasiswa/DetailJemput'));
 const DompetPoin = lazy(() => import('@/features/mahasiswa/DompetPoin'));
 const Profil = lazy(() => import('@/features/mahasiswa/Profil'));
 
+const BerandaMitra = lazy(() => import('@/features/mitra/BerandaMitra'));
 const AntreanMitra = lazy(() => import('@/features/mitra/AntreanCetak'));
 const BundelMitra = lazy(() => import('@/features/mitra/BundelSortir'));
 const StokMitra = lazy(() => import('@/features/mitra/StokEco'));
@@ -69,7 +70,8 @@ export default function App() {
           </Route>
 
           <Route path="mitra" element={<AppShell peran="MITRA" />}>
-            <Route index element={<AntreanMitra />} />
+            <Route index element={<BerandaMitra />} />
+            <Route path="antrean" element={<AntreanMitra />} />
             <Route path="bundel" element={<BundelMitra />} />
             <Route path="stok" element={<StokMitra />} />
           </Route>

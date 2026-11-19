@@ -17,13 +17,14 @@ export const NAV: Record<Role, ItemNav[]> = {
     { ke: '/mhs/profil', label: 'Profil', ikon: 'profil' },
   ],
   MITRA: [
-    { ke: '/mitra', label: 'Antrean Cetak', ikon: 'printer', akhir: true },
+    { ke: '/mitra', label: 'Beranda', ikon: 'meja', akhir: true },
+    { ke: '/mitra/antrean', label: 'Antrean Cetak', ikon: 'printer' },
     { ke: '/mitra/bundel', label: 'Bundel & Sortir', ikon: 'tumpuk' },
     { ke: '/mitra/stok', label: 'Stok Eco-Paper', ikon: 'stok' },
   ],
-  KURIR: [{ ke: '/kurir', label: 'Tugas Jemput', ikon: 'rute', akhir: true }],
+  KURIR: [{ ke: '/kurir', label: 'Beranda', ikon: 'meja', akhir: true }],
   ADMIN: [
-    { ke: '/admin', label: 'Laporan Dampak', ikon: 'grafik', akhir: true },
+    { ke: '/admin', label: 'Beranda', ikon: 'meja', akhir: true },
     { ke: '/admin/tarif', label: 'Tarif & Aturan', ikon: 'poin' },
     { ke: '/admin/mitra-kurir', label: 'Mitra & Kurir', ikon: 'stok' },
     { ke: '/admin/pengguna', label: 'Pengguna', ikon: 'profil' },

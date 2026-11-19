@@ -13,6 +13,8 @@ const W = 2.1;
 const H = 2.97; // rasio A4
 const CW = 420;
 const CH = 594;
+const KERTAS = '#FBFAF6'; // kertas-terang
+const REVISI = '#D33A2C';
 
 function acak(seed: number) {
   let s = seed;
@@ -24,7 +26,7 @@ function acak(seed: number) {
 
 function gambarDepan(ctx: CanvasRenderingContext2D, seed: number, coretan: boolean) {
   const r = acak(seed);
-  ctx.fillStyle = '#FBFAF6';
+  ctx.fillStyle = KERTAS;
   ctx.fillRect(0, 0, CW, CH);
   // judul
   ctx.fillStyle = '#161513';
@@ -49,42 +51,26 @@ function gambarDepan(ctx: CanvasRenderingContext2D, seed: number, coretan: boole
   ctx.fillStyle = 'rgba(22,21,19,0.4)';
   ctx.fillRect(CW / 2 - 8, CH - 36, 16, 5);
   if (!coretan) return;
-  // coretan dosen
-  ctx.strokeStyle = '#D33A2C';
+  // satu coretan dosen: garis bawah tipis + catatan
+  const yy = baris[3] + 9;
+  ctx.strokeStyle = REVISI;
   ctx.lineCap = 'round';
-  ctx.lineWidth = 3;
-  for (let k = 0; k < 3; k++) {
-    const yy = baris[Math.floor(r() * baris.length)] + 2;
-    ctx.beginPath();
-    ctx.moveTo(44, yy + 2);
-    ctx.bezierCurveTo(120, yy - 4, 220, yy + 6, 300 + r() * 40, yy - 1);
-    ctx.stroke();
-  }
-  ctx.lineWidth = 2.4;
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  ctx.ellipse(150, baris[4] + 3, 110, 16, -0.04, 0, Math.PI * 2);
+  ctx.moveTo(48, yy);
+  ctx.bezierCurveTo(130, yy - 3, 220, yy + 3, 330, yy - 1);
   ctx.stroke();
-  ctx.font = 'italic 600 30px Newsreader, Georgia, serif';
-  ctx.fillStyle = '#D33A2C';
+  ctx.font = 'italic 600 26px Spectral, Georgia, serif';
+  ctx.fillStyle = REVISI;
   ctx.save();
-  ctx.translate(250, 108);
-  ctx.rotate(-0.12);
-  ctx.fillText('revisi lagi!', 0, 0);
-  ctx.restore();
-  ctx.beginPath();
-  ctx.moveTo(368, 150);
-  ctx.lineTo(368, 300);
-  ctx.stroke();
-  ctx.font = 'italic 22px Newsreader, Georgia, serif';
-  ctx.save();
-  ctx.translate(380, 290);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillText('sumber?', 0, 0);
+  ctx.translate(262, 104);
+  ctx.rotate(-0.08);
+  ctx.fillText('revisi lagi', 0, 0);
   ctx.restore();
 }
 
 function gambarBelakang(ctx: CanvasRenderingContext2D, progres: number) {
-  ctx.fillStyle = '#F7F4EC';
+  ctx.fillStyle = KERTAS;
   ctx.fillRect(0, 0, CW, CH);
   // bayangan tinta tembus dari sisi depan (samar & terbalik)
   ctx.fillStyle = 'rgba(22,21,19,0.035)';
@@ -115,7 +101,7 @@ function gambarBelakang(ctx: CanvasRenderingContext2D, progres: number) {
   // kepala cetak
   if (progres > 0 && progres < 1) {
     const yh = 70 + n * 16.6;
-    ctx.fillStyle = 'rgba(211,58,44,0.85)';
+    ctx.fillStyle = REVISI;
     ctx.fillRect(36, yh, CW - 72, 2);
   }
 }
@@ -169,7 +155,7 @@ function Tumpukan() {
           {i === lembar.length - 1 ? (
             <meshStandardMaterial map={atas.tex} roughness={0.95} side={THREE.DoubleSide} />
           ) : (
-            <meshStandardMaterial color={i % 3 === 0 ? '#EFEBE1' : '#F6F3EB'} roughness={1} side={THREE.DoubleSide} />
+            <meshStandardMaterial color={KERTAS} roughness={1} side={THREE.DoubleSide} />
           )}
         </mesh>
       ))}
@@ -227,36 +213,21 @@ function LembarBerbalik({ diam }: { diam: boolean }) {
   );
 }
 
-function Pensil() {
-  return (
-    <group position={[-1.55, -1.08, 0.9]} rotation={[0, 0.7, Math.PI / 2]}>
-      <mesh castShadow>
-        <cylinderGeometry args={[0.055, 0.055, 2.1, 6]} />
-        <meshStandardMaterial color="#D33A2C" roughness={0.6} />
-      </mesh>
-      <mesh position={[0, 1.13, 0]} castShadow>
-        <coneGeometry args={[0.055, 0.18, 6]} />
-        <meshStandardMaterial color="#C49A6C" roughness={0.9} />
-      </mesh>
-      <mesh position={[0, 1.2, 0]}>
-        <coneGeometry args={[0.018, 0.05, 6]} />
-        <meshStandardMaterial color="#161513" />
-      </mesh>
-    </group>
-  );
-}
-
 export default function MejaRevisi() {
   const diam = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
   return (
-    <Canvas shadows dpr={[1, 1.75]} camera={{ position: [0, 1.6, 5.6], fov: 38 }} gl={{ antialias: true, alpha: true }} aria-label="Ilustrasi tumpukan draf revisi; satu lembar berbalik dan sisi kosongnya dicetak ulang">
-      <ambientLight intensity={0.85} color="#FFF8EC" />
-      <directionalLight position={[3.5, 6, 4]} intensity={1.6} color="#FFF3DF" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
-      <directionalLight position={[-4, 2, -2]} intensity={0.35} color="#DDE6FF" />
-      <Tumpukan />
-      <LembarBerbalik diam={!!diam} />
-      <Pensil />
-      <ContactShadows position={[0, -1.17, 0]} opacity={0.32} scale={9} blur={2.6} far={3} color="#3a2e22" />
+    <Canvas flat shadows dpr={[1, 1.75]} camera={{ position: [0, 1.6, 5.6], fov: 38 }} gl={{ antialias: true, alpha: true }} aria-label="Ilustrasi tumpukan draf revisi; satu lembar berbalik dan sisi kosongnya dicetak ulang">
+      {/* three r170: diffuse = albedo × (ambient + lampu·cos) ÷ π. Total ≈ 3 agar kertas tampil putih, tidak abu. */}
+      <ambientLight intensity={2.3} color="#FFFFFF" />
+      <directionalLight position={[3.5, 6, 4]} intensity={1.2} color="#FFFFFF" castShadow shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} />
+      <directionalLight position={[-4, 2, -2]} intensity={0.3} color="#FFFFFF" />
+      {/* Ukuran adegan diatur lewat skala grup, bukan kamera: prop camera hanya dibaca sekali saat Canvas dibuat. */}
+      <group scale={0.7} position={[0, -0.15, 0]}>
+        <Tumpukan />
+        <LembarBerbalik diam={!!diam} />
+        {/* Bidang bayangan kecil (memudar sebelum tepi kanvas) dan far pendek: hanya tumpukan di lantai yang membayang. */}
+        <ContactShadows position={[0, -1.17, 0]} opacity={0.22} scale={4.5} blur={2.4} far={0.45} color="#161513" />
+      </group>
     </Canvas>
   );
 }

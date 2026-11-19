@@ -11,11 +11,18 @@
   --revisi: #d33a2c;
   --kraft: #c49a6c;
   --sukses: #2f5d50;
-  --garis: rgba(22, 21, 19, 0.09);
+  --garis: rgba(22, 21, 19, 0.05);
   color-scheme: light;
 }
 
 @layer base {
+  /* Scrollbar disembunyikan di seluruh situs; scroll tetap berfungsi. */
+  * {
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    display: none;
+  }
   html {
     background: var(--kertas);
     color: var(--tinta);
@@ -64,6 +71,19 @@
       var(--garis) 31px,
       var(--garis) 32px
     );
+  }
+  /* Lembar buku tulis: bergaris + margin merah di kiri. Isi pakai leading-8 dan padding kelipatan 32px agar teks duduk di garis. */
+  .lembar-buku {
+    @apply kartu bergaris relative;
+  }
+  .lembar-buku::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 2.75rem;
+    width: 1px;
+    background: rgba(211, 58, 44, 0.45);
   }
   /* Margin merah buku tulis */
   .margin-merah {
@@ -118,11 +138,44 @@
   .sudut-lipat::after {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
+    /* -1px: absolute dihitung dari tepi dalam border, supaya lipatan pas di sudut kertas */
+    top: -1px;
+    right: -1px;
     width: 14px;
     height: 14px;
     background: linear-gradient(to bottom left, transparent 50%, rgba(22, 21, 19, 0.28) 50%);
+  }
+  /* Kartu potongan: tepi kanan digunting gunting zigzag, sudut kanan atas terlipat. Bayangan pasang lewat drop-shadow di pembungkus (box-shadow ikut ter-mask). */
+  .kartu-potong {
+    --gigi: 12px;
+    position: relative;
+    background: var(--kertas-terang);
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+    -webkit-mask:
+      conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) right / 51% var(--gigi) repeat-y,
+      linear-gradient(#000 0 0) left / calc(100% - var(--gigi) / 2) 100% no-repeat;
+    mask:
+      conic-gradient(from 225deg at right, #0000, #000 1deg 89deg, #0000 90deg) right / 51% var(--gigi) repeat-y,
+      linear-gradient(#000 0 0) left / calc(100% - var(--gigi) / 2) 100% no-repeat;
+  }
+  .kartu-potong::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(to bottom left, transparent 50%, rgba(22, 21, 19, 0.22) 50%);
+  }
+  /* Lubang pons di kiri: warna latar + bayangan dalam, sama seperti .label-harga. */
+  .lubang-pons {
+    position: absolute;
+    left: 12px;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: var(--kertas);
+    box-shadow: inset 1px 1px 2px rgba(22, 21, 19, 0.35);
   }
   /* Selotip kertas: ujung kiri-kanan bergerigi, sedikit tembus. */
   .selotip {
@@ -161,7 +214,7 @@
 
 /* Leaflet menyesuaikan nuansa kertas */
 .leaflet-container {
-  font-family: 'Hanken Grotesk', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   background: #ece7dc;
 }
 .leaflet-tile-pane {

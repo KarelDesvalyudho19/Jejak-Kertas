@@ -41,7 +41,7 @@ export default function Lacak() {
               role="tab"
               aria-selected={tab === k}
               onClick={() => setParams(k === 'jemput' ? { tab: 'jemput' } : {})}
-              className={cn('-mb-px border-b-2 px-4 py-2.5 font-serif text-[18px] font-semibold transition-colors', tab === k ? 'border-revisi text-tinta' : 'border-transparent text-tinta-abu hover:text-tinta')}
+              className={cn('-mb-px border-b-2 px-4 py-2 font-serif text-[16px] font-semibold transition-colors', tab === k ? 'border-revisi text-tinta' : 'border-transparent text-tinta-abu hover:text-tinta')}
             >
               {l} {n > 0 && <span className="ml-1 font-mono text-[11px] font-normal text-revisi">{n}</span>}
             </button>

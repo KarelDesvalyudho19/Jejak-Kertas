@@ -11,7 +11,7 @@ import { Putar } from '@/components/ui/Button';
 import { Ikon } from './Ikon';
 import { Logo } from './Logo';
 
-/** Kerangka panel: sidebar bermargin merah seperti buku tulis (desktop) + navigasi bawah (mobile). */
+/** Kerangka panel: sidebar (desktop) + navigasi bawah (mobile). */
 export function AppShell({ peran }: { peran: Role }) {
   const { user, memuatSesi, data, keluar } = useApp();
   const lokasi = useLocation();
@@ -25,35 +25,31 @@ export function AppShell({ peran }: { peran: Role }) {
   const saldo = user.role === 'MAHASISWA' ? user.saldoPoin : null;
 
   return (
-    <div className="min-h-screen md:grid md:grid-cols-[248px_1fr]">
-      <aside className="margin-merah sticky top-0 hidden h-screen flex-col bg-kertas-terang md:flex">
-        <div className="px-6 pb-6 pt-6">
-          <Logo ke={berandaPeran(peran)} />
+    <div className="min-h-screen md:grid md:grid-cols-[232px_1fr]">
+      <aside className="sticky top-0 hidden h-screen flex-col border-r border-tinta/10 bg-kertas-gelap/60 md:flex">
+        <div className="px-4 pb-4 pt-5">
+          <Logo ke={berandaPeran(peran)} kecil />
         </div>
-        <div className="px-6">
+        <div className="px-4">
           <div className="label-mono">{ROLE_LABEL[peran]}</div>
         </div>
-        <nav className="mt-3 flex flex-1 flex-col gap-0.5 px-3">
-          {items.map((it, i) => (
+        <nav className="mt-3 flex flex-1 flex-col gap-1 px-3">
+          {items.map((it) => (
             <NavLink
               key={it.ke}
               to={it.ke}
               end={it.akhir}
               className={({ isActive }) =>
                 cn(
-                  'group relative flex items-center gap-3 px-3 py-2.5 text-[14.5px] transition-colors',
-                  isActive ? 'bg-kertas font-medium text-tinta' : 'text-tinta-abu hover:text-tinta',
+                  'flex items-center gap-3 border px-3 py-2 text-[14px] transition-all',
+                  isActive
+                    ? 'border-tinta/10 bg-[#FEFEFC] font-medium text-tinta shadow-kertas'
+                    : 'border-transparent text-tinta-abu hover:bg-kertas-terang/70 hover:text-tinta',
                 )
               }
             >
-              {({ isActive }) => (
-                <>
-                  <span className="w-5 font-mono text-[10.5px] text-tinta-pudar">{String(i + 1).padStart(2, '0')}</span>
-                  <Ikon nama={it.ikon} />
-                  <span>{it.label}</span>
-                  {isActive && <motion.span layoutId="penanda-nav" className="absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 bg-revisi" />}
-                </>
-              )}
+              <Ikon nama={it.ikon} />
+              <span className="truncate">{it.label}</span>
             </NavLink>
           ))}
         </nav>
@@ -107,7 +103,7 @@ export function AppShell({ peran }: { peran: Role }) {
       </div>
 
       <main className="min-w-0 pb-24 md:pb-0">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 md:px-10 md:py-10">
+        <div className="px-4 py-6 sm:px-6 md:px-8 md:py-8">
           {!data ? (
             <LayarMuat dalam />
           ) : (

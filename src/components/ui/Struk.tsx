@@ -4,8 +4,9 @@ import { cn } from '@/lib/format';
 /** Struk kasir: kertas sempit, huruf mono, tepi bawah bergerigi. */
 export function Struk({ children, className, judul, sub }: { children: ReactNode; className?: string; judul?: string; sub?: string }) {
   return (
-    <div className={cn('relative', className)}>
-      <div className="tepi-struk bg-kertas-terang px-5 pb-8 pt-5 font-mono text-[12.5px] text-tinta shadow-kertas">
+    // drop-shadow di pembungkus: box-shadow di dalam ikut terpotong mask tepi bergerigi
+    <div className={cn('relative drop-shadow-[0_6px_10px_rgba(22,21,19,0.12)]', className)}>
+      <div className="tepi-struk bg-[#FEFEFC] px-5 pb-8 pt-5 font-struk text-[12px] text-tinta">
         {judul && (
           <div className="mb-3 text-center">
             <div className="text-[13px] font-semibold uppercase tracking-[0.2em]">{judul}</div>

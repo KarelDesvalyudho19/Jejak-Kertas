@@ -24,7 +24,7 @@ export default function TarifAturan() {
 
   return (
     <>
-      <JudulHalaman nomor="A2 — Tarif & aturan" judul="Harga per lembar." deskripsi="Perubahan berlaku untuk pesanan baru. Pesanan lama tetap memakai harga saat dipesan." />
+      <JudulHalaman nomor="01 — Tarif & aturan" judul="Harga per lembar." deskripsi="Perubahan berlaku untuk pesanan baru. Pesanan lama tetap memakai harga saat dipesan." />
 
       <section>
         <SubJudul>Tarif cetak</SubJudul>
@@ -60,7 +60,7 @@ export default function TarifAturan() {
         <Button className="mt-4" onClick={() => aksi(() => repo.simpanTarif(tarif), 'Tarif disimpan.')}>Simpan tarif</Button>
       </section>
 
-      <div className="mt-12 grid gap-8 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <section>
           <SubJudul>Biaya jilid (per salinan)</SubJudul>
           <Kertas bergaris className="space-y-4 p-5">

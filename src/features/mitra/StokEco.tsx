@@ -32,10 +32,10 @@ export default function StokEco() {
 
   return (
     <>
-      <JudulHalaman nomor="M3 — Stok Eco-Paper" judul="Lembar siap cetak ulang." deskripsi="Stok bertambah otomatis saat bundel aman disalurkan, dan berkurang saat mahasiswa memesan Eco-Paper." />
+      <JudulHalaman nomor="03 — Stok Eco-Paper" judul="Lembar siap cetak ulang." deskripsi="Stok bertambah otomatis saat bundel aman disalurkan, dan berkurang saat mahasiswa memesan Eco-Paper." />
 
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-        <Kertas className="p-6">
+      <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr]">
+        <Kertas className="p-5">
           <div className="label-mono">Stok saat ini</div>
           <div className="mt-3 flex items-baseline gap-2">
             <span className={cn('font-serif text-[80px] font-semibold leading-none tracking-rapat tabular-nums', sekarang < 200 && 'text-revisi')}>{angka(sekarang)}</span>
@@ -59,7 +59,7 @@ export default function StokEco() {
         </div>
       </div>
 
-      <Kertas bergaris className="mt-8 max-w-xl p-6">
+      <Kertas bergaris className="mt-5 max-w-xl p-5">
         <h2 className="text-[22px] font-semibold">Koreksi stok fisik</h2>
         <p className="mt-1 text-sm text-tinta-abu">Gunakan setelah stock opname, misalnya bila ada lembar rusak atau terpakai di luar sistem.</p>
         <div className="mt-5 flex flex-wrap items-end gap-4">

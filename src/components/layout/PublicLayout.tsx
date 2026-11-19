@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { TombolTautan } from '@/components/ui/Button';
 import { berandaPeran } from '@/lib/navigasi';
@@ -6,8 +6,11 @@ import { Logo } from './Logo';
 
 export function PublicLayout() {
   const { user } = useApp();
+  const { pathname } = useLocation();
+  // Masuk & Daftar: satu layar penuh tanpa scroll di layar lebar (header 1px border ikut dihitung lewat min-h-0).
+  const kunci = ['/masuk', '/daftar'].includes(pathname);
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className={`flex min-h-screen flex-col ${kunci ? 'lg:h-dvh lg:overflow-hidden' : ''}`}>
       <header className="sticky top-0 z-40 border-b border-tinta/10 bg-kertas/90 backdrop-blur-[2px]">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
           <Logo />
@@ -29,9 +32,10 @@ export function PublicLayout() {
           </div>
         </div>
       </header>
-      <main className="flex-1">
+      <main className={`flex-1 ${kunci ? 'lg:min-h-0 lg:overflow-hidden' : ''}`}>
         <Outlet />
       </main>
+      {!kunci && (
       <footer className="border-t border-tinta/15 bg-kertas-terang">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
@@ -50,7 +54,7 @@ export function PublicLayout() {
           </div>
           <div className="text-sm">
             <div className="label-mono mb-3">Wilayah layanan</div>
-            <p className="text-tinta-abu">Kandang Limun, Jl. W.R. Supratman, Bumi Ayu — sekitar Universitas Bengkulu, Kota Bengkulu.</p>
+            <p className="text-tinta-abu">Kandang Limun, Jl. W.R. Supratman, sekitar Universitas Bengkulu, Kota Bengkulu.</p>
           </div>
         </div>
         <div className="border-t border-tinta/10">
@@ -60,6 +64,7 @@ export function PublicLayout() {
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 }

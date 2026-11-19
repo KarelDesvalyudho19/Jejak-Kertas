@@ -6,17 +6,18 @@ import { angka, cn, idPendek, rupiah, tanggalJam } from '@/lib/format';
 import { labelSlot } from '@/lib/jadwal';
 import type { Mitra, PermintaanJemput, PesananCetak } from '@/lib/types';
 
-export function BarisPesanan({ p, ke }: { p: PesananCetak; ke?: string }) {
+export function BarisPesanan({ p, ke, untukMitra }: { p: PesananCetak; ke?: string; untukMitra?: boolean }) {
   const { dok, users } = useLookup();
   const d = dok.get(p.dokumenId);
-  const m = users.get(p.mitraId) as Mitra | undefined;
+  // Panel mitra menampilkan pemesan, bukan nama usahanya sendiri.
+  const pihak = untukMitra ? users.get(p.mahasiswaId)?.nama : (users.get(p.mitraId) as Mitra | undefined)?.namaUsaha;
   const isi = (
     <div className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 px-4 py-3.5 sm:grid-cols-[96px_1fr_auto_auto]">
       <span className="hidden font-mono text-[11px] text-tinta-abu sm:block">#{idPendek(p.id.replace(/^pc-/, ''))}</span>
       <div className="min-w-0">
         <div className="truncate font-medium">{d?.namaFile ?? 'Dokumen'}</div>
         <div className="truncate text-[12.5px] text-tinta-abu">
-          {JENIS_KERTAS_LABEL[p.jenisKertas]} · {WARNA_LABEL[p.warna]} · {(d?.jumlahHalaman ?? 0) * p.salinan} lbr · {m?.namaUsaha}
+          {JENIS_KERTAS_LABEL[p.jenisKertas]} · {WARNA_LABEL[p.warna]} · {(d?.jumlahHalaman ?? 0) * p.salinan} lbr · {pihak}
         </div>
       </div>
       <span className="hidden text-right font-mono text-[13px] sm:block">{rupiah(p.totalHarga)}</span>

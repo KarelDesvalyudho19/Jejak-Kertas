@@ -4,7 +4,7 @@ import { PetaRute, jarakKm, urutkanRute, type TitikRute } from '@/components/map
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Field';
 import { Modal } from '@/components/ui/Modal';
-import { Angka, JudulHalaman, Kosong } from '@/components/ui/Paper';
+import { Angka, JudulHalaman, Kertas, Kosong, SubJudul } from '@/components/ui/Paper';
 import { BadgeJemput } from '@/components/ui/StatusBadge';
 import { useApp, useData, useLookup } from '@/context/AppContext';
 import { PUSAT_UNIB } from '@/lib/constants';
@@ -85,7 +85,7 @@ export default function TugasJemput() {
       <article
         id={`tugas-${j.id}`}
         onMouseEnter={() => setDipilih(j.id)}
-        className={cn('kartu grid grid-cols-[auto_1fr] gap-4 p-4 transition-colors', dipilih === j.id && 'border-revisi')}
+        className={cn('grid grid-cols-[auto_1fr] gap-4 border-b border-tinta/10 px-4 py-3.5 transition-colors last:border-0', dipilih === j.id && 'bg-kertas')}
       >
         <div className={cn('grid h-9 w-9 place-items-center border font-mono text-sm', nomor ? 'border-tinta bg-revisi text-kertas-terang' : 'border-tinta/30 text-tinta-abu')}>{nomor ?? '·'}</div>
         <div className="min-w-0">
@@ -94,10 +94,10 @@ export default function TugasJemput() {
             <BadgeJemput status={j.status} />
           </div>
           <div className="text-[13px] text-tinta-abu">{m?.alamatKos}</div>
-          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px]">
+          <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[12px] text-tinta-abu">
             <span>{labelSlot(j.jadwal).split(', ').pop()}</span>
             <span>±{angka(j.estimasiLembar)} lbr</span>
-            <span className={cn(j.kategori === 'RAHASIA' ? 'text-revisi' : 'text-tinta-abu')}>{j.kategori === 'RAHASIA' ? 'RAHASIA · jangan dibuka' : 'aman'}</span>
+            <span className={cn(j.kategori === 'RAHASIA' && 'text-revisi')}>{j.kategori === 'RAHASIA' ? 'RAHASIA · jangan dibuka' : 'aman'}</span>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             {j.status === 'DIAJUKAN' && (
@@ -124,9 +124,15 @@ export default function TugasJemput() {
   return (
     <>
       <JudulHalaman
-        nomor="K1 — Tugas jemput"
-        judul={lingkup === 'hari' ? 'Rute hari ini.' : 'Jadwal mendatang.'}
-        deskripsi={now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+        nomor="00 — Meja kerja"
+        judul={<>Halo, {user.nama.split(' ')[0]}.</>}
+        deskripsi={`${now.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' })} · ${
+          tugasSaya.length
+            ? `${tugasSaya.length} kos menunggu dijemput di rutemu.`
+            : terbuka.length
+              ? `${terbuka.length} tugas jemput belum diambil kurir.`
+              : lingkup === 'hari' ? 'Tidak ada jemputan hari ini.' : 'Belum ada jadwal mendatang.'
+        }`}
         aksi={
           <div className="flex gap-2">
             <Chip aktif={lingkup === 'hari'} onClick={() => setLingkup('hari')}>Hari ini</Chip>
@@ -135,34 +141,34 @@ export default function TugasJemput() {
         }
       />
 
-      <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 xl:grid-cols-4">
         <Angka label="Tugasku" nilai={tugasSaya.length} aksen={tugasSaya.length > 0} />
         <Angka label="Belum diambil" nilai={terbuka.length} />
         <Angka label="Sudah dijemput" nilai={selesai.length} />
         <Angka label="Panjang rute" nilai={angka1(rute.km)} satuan="km" catatan={rute.tujuan && rute.urut.length ? `berakhir di ${rute.tujuan.namaUsaha}` : undefined} />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
+      <div className="grid gap-5 lg:grid-cols-[1.15fr_1fr]">
         <PetaRute titik={titik} garis={rute.garis} className="h-[360px] lg:sticky lg:top-8 lg:h-[560px]" onPilih={(id) => { setDipilih(id); document.getElementById(`tugas-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }} />
-        <div className="space-y-6">
+        <div className="space-y-8">
           <section>
-            <div className="label-mono mb-2">Urutan jemput</div>
+            <SubJudul>Urutan jemput</SubJudul>
             {rute.urut.length === 0 ? (
               <Kosong judul="Belum ada tugas" isi="Ambil tugas dari daftar di bawah untuk menyusun rute." />
             ) : (
-              <div className="space-y-3">{rute.urut.map((u, i) => <Kartu key={u.j.id} j={u.j} nomor={i + 1} />)}</div>
+              <Kertas>{rute.urut.map((u, i) => <Kartu key={u.j.id} j={u.j} nomor={i + 1} />)}</Kertas>
             )}
           </section>
           {terbuka.length > 0 && (
             <section>
-              <div className="label-mono mb-2">Belum diambil kurir ({terbuka.length})</div>
-              <div className="space-y-3">{terbuka.map((j) => <Kartu key={j.id} j={j} />)}</div>
+              <SubJudul>Belum diambil kurir ({terbuka.length})</SubJudul>
+              <Kertas>{terbuka.map((j) => <Kartu key={j.id} j={j} />)}</Kertas>
             </section>
           )}
           {selesai.length > 0 && (
             <section>
-              <div className="label-mono mb-2">Selesai dijemput</div>
-              <div className="space-y-3 opacity-75">{selesai.map((j) => <Kartu key={j.id} j={j} />)}</div>
+              <SubJudul>Selesai dijemput</SubJudul>
+              <Kertas>{selesai.map((j) => <Kartu key={j.id} j={j} />)}</Kertas>
             </section>
           )}
         </div>

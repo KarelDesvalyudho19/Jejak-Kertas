@@ -1,8 +1,7 @@
 import { useMemo, useState } from 'react';
 import { repo } from '@/data';
 import { Chip, Input, Select } from '@/components/ui/Field';
-import { JudulHalaman } from '@/components/ui/Paper';
-import { Badge } from '@/components/ui/StatusBadge';
+import { JudulHalaman, Kertas } from '@/components/ui/Paper';
 import { useApp, useData } from '@/context/AppContext';
 import { ROLE_LABEL } from '@/lib/constants';
 import { angka } from '@/lib/format';
@@ -32,7 +31,7 @@ export default function Pengguna() {
 
   return (
     <>
-      <JudulHalaman nomor="A4 — Pengguna" judul="Semua akun." deskripsi="Cari, saring, dan ubah peran. Peran menentukan menu yang dilihat setiap orang." />
+      <JudulHalaman nomor="03 — Pengguna" judul="Semua akun." deskripsi="Cari, saring, dan ubah peran. Peran menentukan menu yang dilihat setiap orang." />
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <Input value={cari} onChange={(e) => setCari(e.target.value)} placeholder="Cari nama, email, NPM…" className="w-64" />
         <div className="flex flex-wrap gap-2">
@@ -44,11 +43,11 @@ export default function Pengguna() {
           ))}
         </div>
       </div>
-      <div className="kartu overflow-x-auto">
-        <table className="w-full min-w-[720px] text-[14px]">
+      <Kertas className="overflow-x-auto">
+        <table className="w-full min-w-[640px] text-[14px]">
           <thead>
             <tr className="border-b border-tinta/20 text-left">
-              {['Nama', 'Email', 'Detail', 'Peran', 'Ubah peran'].map((h) => (
+              {['Nama', 'Email', 'Detail', 'Peran'].map((h) => (
                 <th key={h} className="label-mono px-4 py-3 font-normal">{h}</th>
               ))}
             </tr>
@@ -62,9 +61,6 @@ export default function Pengguna() {
                   {u.role === 'MAHASISWA' && <><span className="font-mono">{u.npm}</span> · {angka(u.saldoPoin)} poin</>}
                   {u.role === 'MITRA' && u.namaUsaha}
                   {u.role === 'KURIR' && <span className="font-mono">{u.noHp}</span>}
-                </td>
-                <td className="px-4 py-2.5">
-                  <Badge label={ROLE_LABEL[u.role]} t={u.role === 'ADMIN' ? 'sukses' : u.role === 'MITRA' ? 'proses' : u.role === 'KURIR' ? 'kraft' : 'netral'} />
                 </td>
                 <td className="px-4 py-2.5">
                   <Select
@@ -87,7 +83,7 @@ export default function Pengguna() {
             ))}
           </tbody>
         </table>
-      </div>
+      </Kertas>
     </>
   );
 }

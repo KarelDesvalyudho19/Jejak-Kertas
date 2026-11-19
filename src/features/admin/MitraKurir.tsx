@@ -39,27 +39,27 @@ export default function MitraKurir() {
 
   return (
     <>
-      <JudulHalaman nomor="A3 — Mitra & kurir" judul="Siapa yang mencetak dan menjemput." deskripsi={repo.mode === 'supabase' ? 'Calon mitra/kurir mendaftar dulu lewat halaman Daftar, lalu tetapkan perannya di sini dengan email yang sama.' : 'Mode demo: akun baru langsung dibuat dengan kata sandi demo12345.'} />
+      <JudulHalaman nomor="02 — Mitra & kurir" judul="Siapa yang mencetak dan menjemput." deskripsi={repo.mode === 'supabase' ? 'Calon mitra/kurir mendaftar dulu lewat halaman Daftar, lalu tetapkan perannya di sini dengan email yang sama.' : 'Mode demo: akun baru langsung dibuat dengan kata sandi demo12345.'} />
 
       <section>
         <SubJudul kanan={<Button ukuran="sm" onClick={() => setForm(baruMitra())}>+ Mitra</Button>}>Mitra percetakan</SubJudul>
-        <div className="grid gap-4 md:grid-cols-3">
+        <Kertas>
           {mitra.map((m) => (
-            <Kertas key={m.id} className="flex flex-col p-5">
-              <div className="font-serif text-[20px] font-semibold leading-tight">{m.namaUsaha}</div>
-              <div className="mt-1 text-[13px] text-tinta-abu">{m.alamat}</div>
-              <div className="mt-1 text-[13px]">{m.nama}</div>
-              <div className="mt-4 grid grid-cols-2 gap-2 border-t border-dashed border-tinta/20 pt-3 font-mono text-[12px]">
-                <span><span className="text-tinta-abu">stok eco</span><br />{angka(stok.get(m.id) ?? 0)}</span>
-                <span><span className="text-tinta-abu">pesanan</span><br />{angka(pesananMitra(m.id))}</span>
+            <div key={m.id} className="flex flex-wrap items-center justify-between gap-3 border-b border-tinta/10 px-5 py-3.5 last:border-0">
+              <div className="min-w-0">
+                <div className="font-medium">{m.namaUsaha}</div>
+                <div className="truncate text-[13px] text-tinta-abu">{m.nama} · {m.alamat}</div>
               </div>
-              <Button varian="hantu" ukuran="sm" className="mt-3 self-start" onClick={() => setForm(editMitra(m))}>Ubah</Button>
-            </Kertas>
+              <div className="flex items-center gap-4">
+                <span className="font-mono text-[12px] text-tinta-abu">{angka(stok.get(m.id) ?? 0)} lbr stok · {angka(pesananMitra(m.id))} pesanan</span>
+                <Button varian="hantu" ukuran="sm" onClick={() => setForm(editMitra(m))}>Ubah</Button>
+              </div>
+            </div>
           ))}
-        </div>
+        </Kertas>
       </section>
 
-      <section className="mt-12">
+      <section className="mt-8">
         <SubJudul kanan={<Button ukuran="sm" onClick={() => setForm({ role: 'KURIR', email: '', nama: '', noHp: '', baru: true })}>+ Kurir</Button>}>Kurir jemput</SubJudul>
         <Kertas>
           {kurir.map((k) => (

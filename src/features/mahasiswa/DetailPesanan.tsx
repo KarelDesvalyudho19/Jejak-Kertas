@@ -46,14 +46,14 @@ export default function DetailPesanan() {
         aksi={<BadgePesanan status={p.status} className="text-[12px]" />}
       />
 
-      <Kertas className="mb-8 p-6">
+      <Kertas className="mb-6 p-5">
         <Timeline langkah={ALUR_PESANAN.map((s) => ({ kunci: s, label: STATUS_PESANAN[s].label, ket: KET[s] }))} aktif={idx} batal={batal} />
         {batal && <p className="mt-4 border-l-2 border-revisi pl-3 text-sm text-tinta-abu">Pesanan dibatalkan. Poin yang dipakai sudah dikembalikan ke dompet.</p>}
       </Kertas>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-6">
-          <Kertas bergaris className="p-6">
+      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+        <div className="space-y-5">
+          <Kertas className="p-5">
             <div className="label-mono mb-3">Spesifikasi</div>
             <dl className="grid grid-cols-2 gap-x-6 leading-8 sm:grid-cols-[auto_1fr]">
               <dt className="text-tinta-abu">Kertas</dt><dd>{JENIS_KERTAS_LABEL[p.jenisKertas]}</dd>
@@ -76,7 +76,7 @@ export default function DetailPesanan() {
             </div>
           </Kertas>
           {m && (
-            <Kertas className="p-6">
+            <Kertas className="p-5">
               <div className="label-mono mb-2">Ambil di</div>
               <div className="font-serif text-xl font-semibold">{m.namaUsaha}</div>
               <div className="text-sm text-tinta-abu">{m.alamat}</div>
