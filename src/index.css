@@ -1,0 +1,157 @@
+@import 'leaflet/dist/leaflet.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --kertas: #f4f1ea;
+  --kertas-terang: #fbfaf6;
+  --tinta: #161513;
+  --tinta-abu: #6b675f;
+  --revisi: #d33a2c;
+  --kraft: #c49a6c;
+  --sukses: #2f5d50;
+  --garis: rgba(22, 21, 19, 0.09);
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    background: var(--kertas);
+    color: var(--tinta);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply font-sans bg-kertas text-tinta min-h-screen;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  /* Butir kertas: noise SVG statis, opasitas rendah, tidak menangkap klik. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.07;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0 0.07 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  h1, h2, h3 {
+    @apply font-serif tracking-rapat;
+    font-optical-sizing: auto;
+    font-variation-settings: 'SOFT' 30, 'WONK' 0;
+  }
+  ::selection {
+    background: rgba(211, 58, 44, 0.18);
+  }
+  :focus-visible {
+    outline: 2px solid var(--revisi);
+    outline-offset: 2px;
+  }
+  input[type='number']::-webkit-inner-spin-button {
+    opacity: 0.4;
+  }
+}
+
+@layer components {
+  /* Kertas bergaris: garis horizontal 1px seperti buku tulis. */
+  .bergaris {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      var(--garis) 31px,
+      var(--garis) 32px
+    );
+  }
+  /* Margin merah buku tulis */
+  .margin-merah {
+    position: relative;
+  }
+  .margin-merah::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 1px;
+    background: rgba(211, 58, 44, 0.45);
+    box-shadow: -3px 0 0 rgba(211, 58, 44, 0.18);
+  }
+  .grid-milimeter {
+    background-image:
+      linear-gradient(var(--garis) 1px, transparent 1px),
+      linear-gradient(90deg, var(--garis) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .label-mono {
+    @apply font-mono text-[11px] uppercase tracking-[0.14em] text-tinta-abu;
+  }
+  .angka {
+    @apply font-mono tabular-nums;
+  }
+  .kartu {
+    @apply bg-kertas-terang border border-tinta/10 shadow-kertas;
+  }
+  /* Tepi bergerigi struk */
+  .tepi-struk {
+    --gigi: 10px;
+    -webkit-mask:
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / var(--gigi) 51% repeat-x,
+      linear-gradient(#000 0 0) top / 100% calc(100% - var(--gigi) / 2) no-repeat;
+    mask:
+      conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / var(--gigi) 51% repeat-x,
+      linear-gradient(#000 0 0) top / 100% calc(100% - var(--gigi) / 2) no-repeat;
+  }
+  .garis-putus {
+    background-image: linear-gradient(to right, rgba(22, 21, 19, 0.35) 50%, transparent 0);
+    background-size: 8px 1px;
+    background-repeat: repeat-x;
+    height: 1px;
+  }
+  .tautan {
+    @apply underline decoration-tinta/30 underline-offset-4 hover:decoration-revisi hover:text-revisi transition-colors;
+  }
+}
+
+/* Leaflet menyesuaikan nuansa kertas */
+.leaflet-container {
+  font-family: 'IBM Plex Sans', sans-serif;
+  background: #ece7dc;
+}
+.leaflet-tile-pane {
+  filter: grayscale(0.85) sepia(0.18) contrast(0.95) brightness(1.03);
+}
+.leaflet-control-attribution {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px !important;
+  background: rgba(251, 250, 246, 0.85) !important;
+}
+.leaflet-bar a {
+  background: #fbfaf6 !important;
+  color: #161513 !important;
+  border-radius: 0 !important;
+}
+.leaflet-bar {
+  border-radius: 0 !important;
+  border: 1px solid rgba(22, 21, 19, 0.2) !important;
+  box-shadow: none !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 2px;
+  background: #fbfaf6;
+  box-shadow: 0 8px 24px -12px rgba(22, 21, 19, 0.35);
+}
+.pin-jkz {
+  background: transparent;
+  border: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
