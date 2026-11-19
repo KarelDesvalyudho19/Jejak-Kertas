@@ -3,3 +3,7 @@ dist
 .env
 .env.local
 *.log
+
+# Konteks untuk AI agent (lokal saja)
+AGENTS.md
+CLAUDE.md
